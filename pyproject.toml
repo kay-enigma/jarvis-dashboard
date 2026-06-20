@@ -1,0 +1,35 @@
+[project]
+name = "control-rods"
+version = "1.0.0"
+description = "A three-layer personal planning system (Destinations / Quarter / Annual) backed by Google Sheets, served via FastAPI."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "fastapi>=0.110",
+    "uvicorn[standard]>=0.27",
+    "pydantic>=2.6",
+]
+
+[project.optional-dependencies]
+google = [
+    "google-api-python-client>=2.0",
+    "google-auth>=2.0",
+]
+dev = [
+    "pytest>=8.0",
+    "httpx>=0.27",
+]
+
+[project.scripts]
+control-rods = "control_rods.cli:main"
+jarvis = "jarvis.cli:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["control_rods*", "jarvis*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

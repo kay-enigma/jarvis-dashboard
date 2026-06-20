@@ -1,0 +1,18 @@
+__pycache__/
+*.pyc
+.DS_Store
+.claude/
+*.egg-info/
+.pytest_cache/
+.venv/
+venv/
+build/
+dist/
+*.json.snapshot
+# Jarvis live state — personal data, seeded on first run
+data/jarvis_state.json
+data/*.tmp
+# never commit credentials
+*key*.json
+service-account*.json
+.env

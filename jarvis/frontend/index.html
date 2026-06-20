@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>JARVIS // pit wall</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+<div class="app">
+
+  <div class="topbar">
+    <div class="brand">
+      <h1><span class="j">J</span>ARVIS</h1>
+      <span class="sub">pit wall // rods withdrawn</span>
+    </div>
+    <div class="status">
+      <span class="dot" id="status-dot"></span><span id="status-text">booting</span>
+      <div class="clock" id="clock"></div>
+    </div>
+  </div>
+
+  <nav class="nav" id="nav">
+    <button class="tab-btn active" data-tab="home"><span class="gi">00</span>Home</button>
+    <button class="tab-btn" data-tab="peptides"><span class="gi">01</span>Peptides</button>
+    <button class="tab-btn" data-tab="health"><span class="gi">02</span>Health &amp; Gym</button>
+    <button class="tab-btn" data-tab="workouts"><span class="gi">03</span>Workouts</button>
+    <button class="tab-btn" data-tab="money"><span class="gi">04</span>Money</button>
+    <button class="tab-btn" data-tab="rods"><span class="gi">05</span>No Control Rods</button>
+    <button class="tab-btn" data-tab="garage"><span class="gi">06</span>Garage</button>
+    <button class="tab-btn" data-tab="claude"><span class="gi">07</span>Claude</button>
+  </nav>
+
+  <section class="tab active" id="tab-home"><div class="skeleton">spinning up the reactor&hellip;</div></section>
+  <section class="tab" id="tab-peptides"></section>
+  <section class="tab" id="tab-health"></section>
+  <section class="tab" id="tab-workouts"></section>
+  <section class="tab" id="tab-money"></section>
+  <section class="tab" id="tab-rods"></section>
+  <section class="tab" id="tab-garage"></section>
+  <section class="tab" id="tab-claude"></section>
+
+  <div class="foot">
+    <span>JARVIS · pit wall // rods withdrawn</span>
+    <a href="/api/export" class="checkin-btn" style="text-decoration:none">⤓ export backup</a>
+  </div>
+
+</div>
+
+<div id="overlay"></div>
+<div id="toast"></div>
+<script src="/static/app.js"></script>
+</body>
+</html>

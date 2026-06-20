@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>CONTROL RODS // pit wall</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #0b0f14;
+    --panel: #121821;
+    --panel-2: #161e29;
+    --line: #233040;
+    --line-bright: #31435a;
+    --ink: #e6edf3;
+    --ink-dim: #8a98a8;
+    --ink-faint: #5a6776;
+    --amber: #ffb000;
+    --amber-dim: #b87f12;
+    --green: #36d399;
+    --red: #f0506e;
+    --blue: #4aa8ff;
+    --mono: "IBM Plex Mono", ui-monospace, monospace;
+    --cond: "Barlow Condensed", sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--bg); color: var(--ink); }
+  body {
+    font-family: var(--mono);
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    background-image:
+      radial-gradient(circle at 15% -10%, rgba(255,176,0,0.06), transparent 40%),
+      radial-gradient(circle at 90% 110%, rgba(74,168,255,0.05), transparent 45%);
+    background-attachment: fixed;
+  }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 28px 22px 80px; }
+
+  /* ---- header / status bar ---- */
+  .topbar {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    border-bottom: 1px solid var(--line); padding-bottom: 16px; margin-bottom: 4px;
+    flex-wrap: wrap; gap: 16px;
+  }
+  .brand { display: flex; align-items: baseline; gap: 14px; }
+  .brand h1 {
+    font-family: var(--cond); font-weight: 700; letter-spacing: 0.06em;
+    font-size: clamp(30px, 6vw, 52px); margin: 0; line-height: 0.9;
+    text-transform: uppercase;
+  }
+  .brand h1 .rods { color: var(--amber); }
+  .brand .sub {
+    font-size: 11px; color: var(--ink-faint); letter-spacing: 0.22em;
+    text-transform: uppercase;
+  }
+  .status {
+    text-align: right; font-size: 11px; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--ink-dim);
+  }
+  .status .dot {
+    display: inline-block; width: 8px; height: 8px; border-radius: 50%;
+    background: var(--green); margin-right: 6px; vertical-align: middle;
+    box-shadow: 0 0 8px var(--green);
+    animation: pulse 2.4s ease-in-out infinite;
+  }
+  .status .dot.bad { background: var(--red); box-shadow: 0 0 8px var(--red); }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+  @media (prefers-reduced-motion: reduce) { .status .dot { animation: none; } }
+
+  .theme-line {
+    font-family: var(--cond); font-weight: 500; font-size: clamp(16px, 2.4vw, 22px);
+    color: var(--ink-dim); letter-spacing: 0.02em; margin: 18px 0 30px;
+    border-left: 3px solid var(--amber); padding-left: 14px;
+  }
+  .theme-line b { color: var(--ink); font-weight: 600; }
+
+  /* ---- section eyebrow ---- */
+  .eyebrow {
+    display: flex; align-items: center; gap: 12px;
+    font-family: var(--cond); font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.14em; font-size: 18px; color: var(--ink);
+    margin: 38px 0 18px;
+  }
+  .eyebrow .idx { color: var(--amber); font-family: var(--mono); font-size: 12px; font-weight: 600; }
+  .eyebrow .rule { flex: 1; height: 1px; background: var(--line); }
+  .eyebrow .meta { font-family: var(--mono); font-size: 11px; color: var(--ink-faint); letter-spacing: 0.08em; }
+
+  /* ---- destinations: control-rod column ---- */
+  .rods-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 14px;
+  }
+  .rod {
+    background: var(--panel); border: 1px solid var(--line); border-radius: 4px;
+    padding: 16px 16px 14px; position: relative; overflow: hidden;
+    display: flex; flex-direction: column; gap: 12px; min-height: 168px;
+  }
+  .rod::before {
+    content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+    background: var(--line-bright);
+  }
+  .rod.floor::before { background: var(--blue); }
+  .rod.skill::before { background: var(--amber); }
+  .rod.venture::before { background: var(--red); }
+  .rod.personal::before { background: var(--green); }
+
+  .rod-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+  .rod-title {
+    font-family: var(--cond); font-weight: 600; font-size: 19px; line-height: 1.05;
+    text-transform: uppercase; letter-spacing: 0.02em;
+  }
+  .tag {
+    font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase;
+    padding: 3px 7px; border-radius: 3px; border: 1px solid var(--line-bright);
+    color: var(--ink-dim); white-space: nowrap; font-weight: 500;
+  }
+  .tag.floor { color: var(--blue); border-color: rgba(74,168,255,0.35); }
+  .tag.skill { color: var(--amber); border-color: rgba(255,176,0,0.35); }
+  .tag.venture { color: var(--red); border-color: rgba(240,80,110,0.35); }
+  .tag.personal { color: var(--green); border-color: rgba(54,211,153,0.35); }
+
+  .rod-detail { font-size: 11.5px; color: var(--ink-dim); line-height: 1.45; }
+  .rod-foot { margin-top: auto; display: flex; flex-direction: column; gap: 8px; }
+  .rod-meta { display: flex; justify-content: space-between; font-size: 10.5px; color: var(--ink-faint); letter-spacing: 0.06em; text-transform: uppercase; }
+  .conf { font-weight: 600; }
+  .conf.locked { color: var(--green); }
+  .conf.likely { color: var(--amber); }
+  .conf.stretch { color: var(--red); }
+
+  /* progress meter (only for numeric destinations) */
+  .meter { height: 6px; background: #0c1117; border: 1px solid var(--line); border-radius: 3px; overflow: hidden; position: relative; }
+  .meter > span { display: block; height: 100%; background: linear-gradient(90deg, var(--amber-dim), var(--amber)); }
+  .meter-label { display: flex; justify-content: space-between; font-size: 10.5px; color: var(--ink-dim); }
+  .meter-label b { color: var(--ink); font-weight: 600; }
+
+  /* ---- quarter: telemetry rows ---- */
+  .q-block { background: var(--panel); border: 1px solid var(--line); border-radius: 4px; overflow: hidden; }
+  .q-bar {
+    display: flex; align-items: center; justify-content: space-between; gap: 14px;
+    padding: 14px 18px; border-bottom: 1px solid var(--line); background: var(--panel-2);
+    flex-wrap: wrap;
+  }
+  .q-bar .label { font-family: var(--cond); font-weight: 700; font-size: 22px; letter-spacing: 0.04em; text-transform: uppercase; }
+  .q-bar .window { font-size: 11px; color: var(--ink-faint); letter-spacing: 0.08em; }
+  .q-pct { font-family: var(--cond); font-weight: 700; font-size: 30px; color: var(--amber); line-height: 1; }
+  .q-pct small { font-size: 11px; color: var(--ink-faint); display: block; text-transform: uppercase; letter-spacing: 0.12em; font-family: var(--mono); font-weight: 500; }
+
+  .task {
+    display: grid; grid-template-columns: 22px 1fr auto; gap: 14px; align-items: start;
+    padding: 13px 18px; border-bottom: 1px solid var(--line);
+  }
+  .task:last-child { border-bottom: none; }
+  .task:hover { background: var(--panel-2); }
+  .light { width: 11px; height: 11px; border-radius: 50%; margin-top: 5px; border: 1px solid rgba(255,255,255,0.15); }
+  .light.done { background: var(--green); box-shadow: 0 0 7px rgba(54,211,153,0.6); }
+  .light.in_progress { background: var(--amber); box-shadow: 0 0 7px rgba(255,176,0,0.6); }
+  .light.not_started { background: #2a3441; }
+  .light.blocked { background: var(--red); box-shadow: 0 0 7px rgba(240,80,110,0.6); }
+  .light.dropped { background: transparent; border-style: dashed; }
+  .t-main .t-title { font-size: 14px; color: var(--ink); }
+  .task.dropped .t-title { color: var(--ink-faint); text-decoration: line-through; }
+  .t-note { font-size: 11px; color: var(--ink-faint); margin-top: 3px; line-height: 1.4; }
+  .t-serves { font-size: 10px; color: var(--blue); margin-top: 4px; letter-spacing: 0.06em; text-transform: uppercase; opacity: 0.8; }
+  .t-right { display: flex; align-items: center; gap: 8px; }
+  .t-status { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-dim); }
+
+  /* ---- annual log ---- */
+  .log { display: grid; gap: 12px; }
+  .log-card { background: var(--panel); border: 1px solid var(--line); border-radius: 4px; padding: 16px 18px; }
+  .log-year { font-family: var(--cond); font-weight: 700; font-size: 24px; color: var(--amber); letter-spacing: 0.04em; }
+  .log-row { display: grid; grid-template-columns: 90px 1fr; gap: 12px; padding: 7px 0; border-top: 1px solid var(--line); font-size: 12.5px; }
+  .log-row:first-of-type { border-top: none; }
+  .log-row .k { color: var(--ink-faint); text-transform: uppercase; letter-spacing: 0.1em; font-size: 10.5px; padding-top: 2px; }
+  .log-row .v { color: var(--ink-dim); line-height: 1.5; }
+
+  /* ---- controls / footer ---- */
+  .controls { display: flex; gap: 10px; margin: 28px 0 0; align-items: center; flex-wrap: wrap; }
+  button.refresh {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+    background: transparent; color: var(--amber); border: 1px solid var(--amber-dim);
+    padding: 9px 16px; border-radius: 3px; cursor: pointer; transition: all 0.15s;
+  }
+  button.refresh:hover { background: rgba(255,176,0,0.1); border-color: var(--amber); }
+  button.refresh:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+  .src { font-size: 10.5px; color: var(--ink-faint); letter-spacing: 0.08em; }
+  .err { color: var(--red); font-size: 12px; margin-top: 12px; }
+
+  .legend { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 10px; font-size: 10px; color: var(--ink-faint); letter-spacing: 0.08em; text-transform: uppercase; }
+  .legend span { display: flex; align-items: center; gap: 5px; }
+  .legend i { width: 9px; height: 9px; border-radius: 2px; display: inline-block; }
+
+  .skeleton { color: var(--ink-faint); font-size: 12px; letter-spacing: 0.1em; padding: 24px 0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <div class="brand">
+      <h1>CONTROL <span class="rods">RODS</span></h1>
+      <span class="sub">pit wall // full power</span>
+    </div>
+    <div class="status" id="status">
+      <span class="dot" id="status-dot"></span><span id="status-text">connecting</span>
+      <div class="src" id="src"></div>
+    </div>
+  </div>
+
+  <div class="theme-line" id="theme">loading the current quarter&hellip;</div>
+
+  <!-- LAYER 1 -->
+  <div class="eyebrow">
+    <span class="idx">L1</span> Destinations
+    <span class="rule"></span>
+    <span class="meta">rarely change &middot; the why</span>
+  </div>
+  <div class="rods-grid" id="destinations"><div class="skeleton">awaiting telemetry&hellip;</div></div>
+  <div class="legend">
+    <span><i style="background:#4aa8ff"></i> Floor</span>
+    <span><i style="background:#ffb000"></i> Skill</span>
+    <span><i style="background:#f0506e"></i> Venture</span>
+    <span><i style="background:#36d399"></i> Personal</span>
+  </div>
+
+  <!-- LAYER 2 -->
+  <div class="eyebrow">
+    <span class="idx">L2</span> Current Quarter
+    <span class="rule"></span>
+    <span class="meta">90 days &middot; the what-now</span>
+  </div>
+  <div class="q-block" id="quarter"><div class="skeleton" style="padding:24px 18px">awaiting telemetry&hellip;</div></div>
+
+  <!-- LAYER 3 -->
+  <div class="eyebrow">
+    <span class="idx">L3</span> Annual Recalibration
+    <span class="rule"></span>
+    <span class="meta">once a year &middot; deviation = input</span>
+  </div>
+  <div class="log" id="annual"><div class="skeleton">awaiting telemetry&hellip;</div></div>
+
+  <div class="controls">
+    <button class="refresh" id="refresh">&#8635; re-pull source</button>
+    <span class="src" id="generated"></span>
+  </div>
+  <div class="err" id="err"></div>
+
+</div>
+
+<script>
+const ENGINE_LABEL = { floor: "Floor", skill: "Skill", venture: "Venture", personal: "Personal" };
+const STATUS_LABEL = { done: "done", in_progress: "live", not_started: "queued", blocked: "blocked", dropped: "dropped" };
+
+function fmtMoney(v, unit) {
+  if (v === null || v === undefined) return "";
+  const n = Number(v).toLocaleString("en-CA", { maximumFractionDigits: 0 });
+  return (unit ? unit + " " : "") + n;
+}
+function esc(s) { return (s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+
+function renderDestinations(dests) {
+  const el = document.getElementById("destinations");
+  if (!dests.length) { el.innerHTML = '<div class="skeleton">no destinations set</div>'; return; }
+  el.innerHTML = dests.map(d => {
+    const eng = d.engine;
+    const hasMeter = d.target_value != null && d.current_value != null;
+    let pct = null;
+    if (hasMeter && d.target_value > 0) pct = Math.min(d.current_value / d.target_value, 1) * 100;
+    const meter = hasMeter ? `
+      <div class="meter-label"><span>${esc(fmtMoney(d.current_value, d.unit))}</span><b>${esc(fmtMoney(d.target_value, d.unit))}</b></div>
+      <div class="meter"><span style="width:${pct.toFixed(1)}%"></span></div>` : "";
+    const dateStr = d.target_date ? d.target_date : "open";
+    return `
+      <div class="rod ${eng}">
+        <div class="rod-head">
+          <div class="rod-title">${esc(d.title)}</div>
+          <span class="tag ${eng}">${ENGINE_LABEL[eng] || eng}</span>
+        </div>
+        <div class="rod-detail">${esc(d.detail)}</div>
+        <div class="rod-foot">
+          ${meter}
+          <div class="rod-meta">
+            <span>&#8594; ${esc(dateStr)}</span>
+            <span class="conf ${d.confidence}">${esc(d.confidence)}</span>
+          </div>
+        </div>
+      </div>`;
+  }).join("");
+}
+
+function renderQuarter(q) {
+  const el = document.getElementById("quarter");
+  if (!q) { el.innerHTML = '<div class="skeleton" style="padding:24px 18px">no current quarter</div>'; return; }
+  const live = q.tasks.filter(t => t.status !== "dropped");
+  const done = live.filter(t => t.status === "done").length;
+  const pct = live.length ? (done / live.length * 100) : 0;
+  const win = (q.start_date && q.end_date) ? `${q.start_date} &rarr; ${q.end_date}` : "";
+  const rows = q.tasks.map(t => `
+    <div class="task ${t.status}">
+      <div class="light ${t.status}" title="${STATUS_LABEL[t.status]||t.status}"></div>
+      <div class="t-main">
+        <div class="t-title">${esc(t.title)}</div>
+        ${t.note ? `<div class="t-note">${esc(t.note)}</div>` : ""}
+        ${t.serves_destination ? `<div class="t-serves">&#8627; serves: ${esc(t.serves_destination)}</div>` : ""}
+      </div>
+      <div class="t-right"><span class="t-status">${STATUS_LABEL[t.status]||t.status}</span><span class="tag ${t.engine}">${ENGINE_LABEL[t.engine]||t.engine}</span></div>
+    </div>`).join("");
+  el.innerHTML = `
+    <div class="q-bar">
+      <div><div class="label">${esc(q.label)}</div><div class="window">${win}</div></div>
+      <div class="q-pct">${pct.toFixed(0)}%<small>${done}/${live.length} complete</small></div>
+    </div>
+    ${rows}`;
+}
+
+function renderAnnual(log) {
+  const el = document.getElementById("annual");
+  if (!log.length) { el.innerHTML = '<div class="skeleton">no entries yet</div>'; return; }
+  el.innerHTML = log.slice().reverse().map(e => `
+    <div class="log-card">
+      <div class="log-year">${esc(String(e.year))}</div>
+      ${e.kept ? `<div class="log-row"><div class="k">Kept</div><div class="v">${esc(e.kept)}</div></div>` : ""}
+      ${e.changed ? `<div class="log-row"><div class="k">Changed</div><div class="v">${esc(e.changed)}</div></div>` : ""}
+      ${e.learned ? `<div class="log-row"><div class="k">Learned</div><div class="v">${esc(e.learned)}</div></div>` : ""}
+    </div>`).join("");
+}
+
+function setStatus(ok, text, src) {
+  document.getElementById("status-dot").className = "dot" + (ok ? "" : " bad");
+  document.getElementById("status-text").textContent = text;
+  if (src) document.getElementById("src").textContent = src;
+}
+
+async function load() {
+  document.getElementById("err").textContent = "";
+  try {
+    const [planRes, healthRes] = await Promise.all([fetch("/api/plan"), fetch("/api/health")]);
+    if (!planRes.ok) throw new Error("plan endpoint " + planRes.status);
+    const plan = await planRes.json();
+    const health = await healthRes.json();
+
+    setStatus(health.status === "ok", health.status === "ok" ? "reactor online" : "degraded", health.source);
+    const q = plan.current_quarter;
+    document.getElementById("theme").innerHTML = q ? `<b>${esc(q.label)}.</b> ${esc(q.theme)}` : "no current quarter set";
+    renderDestinations(plan.destinations || []);
+    renderQuarter(q);
+    renderAnnual(plan.annual_log || []);
+    document.getElementById("generated").textContent = plan.generated_at ? ("snapshot " + plan.generated_at) : "";
+  } catch (e) {
+    setStatus(false, "offline");
+    document.getElementById("err").textContent = "Could not load plan: " + e.message + ". Is the API running?";
+  }
+}
+
+document.getElementById("refresh").addEventListener("click", async () => {
+  const btn = document.getElementById("refresh");
+  btn.textContent = "re-pulling…"; btn.disabled = true;
+  try {
+    const r = await fetch("/api/refresh", { method: "POST" });
+    if (!r.ok) throw new Error("refresh " + r.status);
+    await load();
+  } catch (e) {
+    document.getElementById("err").textContent = "Refresh failed: " + e.message;
+  } finally {
+    btn.textContent = "↻ re-pull source"; btn.disabled = false;
+  }
+});
+
+load();
+</script>
+</body>
+</html>
