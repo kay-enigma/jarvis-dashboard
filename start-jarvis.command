@@ -5,6 +5,13 @@
 
 cd "$(dirname "$0")" || exit 1
 
+# Load local secrets (e.g. JARVIS_CHECKIN_WEBHOOK) from a git-ignored .env.
+if [ -f .env ]; then
+  set -a
+  . ./.env
+  set +a
+fi
+
 # Prefer the project venv if it exists, else fall back to system python.
 if [ -x ".venv/bin/python" ]; then
   PY=".venv/bin/python"
