@@ -16,13 +16,13 @@ from control_rods.schema import (
 
 def test_numeric_destination_computes_progress():
     d = Destination(
-        id="liquid_340k",
-        title="$340k generated",
+        id="runway",
+        title="Financial runway secured",
         engine=Engine.FLOOR,
         confidence=Confidence.STRETCH,
-        target_value=340000,
-        current_value=85000,
-        unit="CAD",
+        target_value=100000,
+        current_value=25000,
+        unit="USD",
     )
     assert d.progress_pct == 25.0
 

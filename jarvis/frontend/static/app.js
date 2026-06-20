@@ -609,7 +609,7 @@ async function renderMoney() {
 
   el.innerHTML = `
     <div class="eyebrow"><span class="idx">03</span> Money &amp; Resources <span class="rule"></span>
-      <span class="meta">floor + skill + venture → $340k</span></div>
+      <span class="meta">floor + skill + venture</span></div>
 
     ${metricPanel("networth", STATE.networth, "var(--green)", nFc)}
 
@@ -617,15 +617,15 @@ async function renderMoney() {
       <div class="panel">
         <div class="panel-head"><h3>Targets</h3></div>
         <div class="inline-form">
-          <div class="field"><label>Liquid target (CAD)</label><input type="number" id="tg-liquid" value="${p.networth_liquid_target}"></div>
-          <div class="field"><label>Total target (CAD)</label><input type="number" id="tg-total" value="${p.networth_total_target}"></div>
-          <div class="field"><label>Car fund (CAD)</label><input type="number" id="tg-car" value="${p.car_fund_target}"></div>
+          <div class="field"><label>Liquid target</label><input type="number" id="tg-liquid" value="${p.networth_liquid_target}"></div>
+          <div class="field"><label>Total target</label><input type="number" id="tg-total" value="${p.networth_total_target}"></div>
+          <div class="field"><label>Big-purchase fund</label><input type="number" id="tg-car" value="${p.car_fund_target}"></div>
           <button class="btn btn-amber" data-action="save-targets">save targets</button>
         </div>
         <div class="stat-row" style="margin-top:14px">
-          <div class="stat"><span class="s-label">Now</span><span class="s-value">${st.latest ? fmtVal(st.latest.value, "CAD") : "—"}</span></div>
-          <div class="stat"><span class="s-label">To liquid 300k</span><span class="s-value">${st.latest ? fmtVal(Math.max(0, p.networth_liquid_target - st.latest.value), "CAD") : "—"}</span></div>
-          <div class="stat"><span class="s-label">To total 340k</span><span class="s-value">${st.latest ? fmtVal(Math.max(0, p.networth_total_target - st.latest.value), "CAD") : "—"}</span></div>
+          <div class="stat"><span class="s-label">Now</span><span class="s-value">${st.latest ? fmtVal(st.latest.value, STATE.networth.unit) : "—"}</span></div>
+          <div class="stat"><span class="s-label">To liquid target</span><span class="s-value">${st.latest ? fmtVal(Math.max(0, p.networth_liquid_target - st.latest.value), STATE.networth.unit) : "—"}</span></div>
+          <div class="stat"><span class="s-label">To total target</span><span class="s-value">${st.latest ? fmtVal(Math.max(0, p.networth_total_target - st.latest.value), STATE.networth.unit) : "—"}</span></div>
         </div>
       </div>
 
@@ -637,28 +637,28 @@ async function renderMoney() {
           <button class="btn btn-amber" data-action="save-money-online">save</button>
         </div>
         <div class="meter" style="margin-top:14px"><span style="width:${Math.min(100, p.money_online_target ? p.money_online_current / p.money_online_target * 100 : 0)}%"></span></div>
-        <div class="hint" style="margin-top:8px">Hard-set milestone: first $100 online. The proof-of-concept the venture engine is built on.</div>
+        <div class="hint" style="margin-top:8px">A first concrete revenue milestone — the proof-of-concept the venture engine is built on.</div>
       </div>
     </div>
 
     <div class="eyebrow"><span class="idx">⛁</span> The three engines <span class="rule"></span>
-      <span class="meta">how the $340k actually decomposes</span></div>
+      <span class="meta">how the target decomposes</span></div>
     <div class="grid-2">
       <div class="panel" style="border-left:3px solid var(--blue)">
         <div class="panel-head"><h3>Floor</h3><span class="tag floor">guaranteed</span></div>
-        <p class="hint">Job + savings. ~60-70% of the target. Calgary → 55%+ savings rate, max TFSA/RRSP, negotiate base hard at offer (~$50k of the goal for one email).</p>
+        <p class="hint">Job + savings — the bulk of the target. High savings rate, tax-advantaged accounts, and negotiating comp hard at offer. The near-certain base.</p>
       </div>
       <div class="panel" style="border-left:3px solid var(--amber)">
         <div class="panel-head"><h3>Skill</h3><span class="tag skill">compounds</span></div>
-        <p class="hint">Ship the Layer 2 repo, dbt/Databricks certs, FastF1, one OSS PR. Turns a $110k role into a $150k+ trajectory and is the remote-US-pay credential.</p>
+        <p class="hint">Portfolio projects, certifications, open-source. Turns a starting salary into a steeper trajectory and unlocks higher-paying / remote roles.</p>
       </div>
       <div class="panel" style="border-left:3px solid var(--red)">
         <div class="panel-head"><h3>Venture</h3><span class="tag venture">the ceiling</span></div>
-        <p class="hint">Protected, low-intensity, nights/weekends. Never threatens the floor. By 2030 a thing with traction to scale or sell. $0 is an acceptable outcome — the floor still wins.</p>
+        <p class="hint">Protected, low-intensity, nights/weekends. Never threatens the floor. The upside engine that can close the gap or blow past it — $0 is an acceptable outcome.</p>
       </div>
       <div class="panel" style="border-left:3px solid var(--green)">
-        <div class="panel-head"><h3>Rough math</h3><span class="tag personal">honest</span></div>
-        <p class="hint">Floor alone ≈ $180k (strong but short). + negotiate + one job hop ≈ $250k. + venture landing → $300k+. Add ~$40k for the car → ~$340k total, ~one extra strong year.</p>
+        <div class="panel-head"><h3>The shape of it</h3><span class="tag personal">honest</span></div>
+        <p class="hint">The floor alone gets you most of the way; negotiation and a job hop add more; the venture is the variable that decides whether you hit or exceed the number.</p>
       </div>
     </div>`;
 }

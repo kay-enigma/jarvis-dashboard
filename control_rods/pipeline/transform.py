@@ -60,9 +60,10 @@ def _parse_date(value: Optional[str]) -> Optional[date]:
 
 
 def _parse_float(value: Optional[str]) -> Optional[float]:
-    """Money cells arrive as '340,000' or '$340000' or ''. Normalise."""
-    raw = _clean(value).replace(",", "").replace("$", "").replace("CAD", "")
-    raw = raw.strip()
+    """Money cells arrive as '100,000' or '$100000' or 'USD 5000' or ''.
+    Strip thousands separators and any currency symbol/code, keep the number."""
+    cleaned = _clean(value).replace(",", "")
+    raw = "".join(c for c in cleaned if c.isdigit() or c in ".-")
     if not raw:
         return None
     return float(raw)

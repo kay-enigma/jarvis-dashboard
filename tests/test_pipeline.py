@@ -32,8 +32,8 @@ def test_sample_tasks_reference_real_destinations():
 
 def test_money_destination_present_and_measurable():
     plan = LocalFileSource(SAMPLE).load()
-    money = next(d for d in plan.destinations if d.id == "liquid_340k")
-    assert money.target_value == 340000
+    money = next(d for d in plan.destinations if d.id == "runway")
+    assert money.target_value == 100000
     assert money.progress_pct is not None
 
 
@@ -53,7 +53,7 @@ def test_api_health_and_plan(monkeypatch):
     assert health["destinations"] == 4
 
     plan = client.get("/api/plan").json()
-    assert plan["owner"] == "Kay"
+    assert plan["owner"] == "Operator"
     assert len(plan["destinations"]) == 4
 
     quarter = client.get("/api/quarter").json()

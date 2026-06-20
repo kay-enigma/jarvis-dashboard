@@ -33,7 +33,7 @@ from .schema import JarvisState
 
 CHECKIN_QUESTIONS: list[dict] = [
     {"id": "weight", "prompt": "Morning weight (lb)?", "type": "number", "maps_to": "weight"},
-    {"id": "protein", "prompt": "Hit your 160g protein yesterday?", "type": "bool"},
+    {"id": "protein", "prompt": "Hit your protein target yesterday?", "type": "bool"},
     {"id": "trained", "prompt": "Did you train yesterday?", "type": "bool"},
     {"id": "energy", "prompt": "Energy & focus right now?", "type": "scale"},
     {"id": "sleep", "prompt": "Sleep quality last night?", "type": "scale"},

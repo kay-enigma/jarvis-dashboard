@@ -67,7 +67,7 @@ energy) and reports **which lever moves which output** (Pearson r), plus a
 repeatable setup to chase. Unlocks after ~6 days of check-ins.
 
 **Money & Resources** — logged net-worth history + chart, editable targets
-(liquid $300k / total $340k / car fund $40k), the money-online milestone, and
+(liquid / total / big-purchase fund), a first-revenue milestone, and
 the three-engine strategy (Floor / Skill / Venture + the rough math) carried
 over from the roadmap.
 

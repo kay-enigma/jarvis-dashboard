@@ -15,9 +15,9 @@ from control_rods.schema import Engine, TaskStatus
 
 
 def test_parse_money_strips_formatting():
-    assert _parse_float("340,000") == 340000.0
+    assert _parse_float("100,000") == 100000.0
     assert _parse_float("$ 40000") == 40000.0
-    assert _parse_float("CAD 5000") == 5000.0
+    assert _parse_float("USD 5000") == 5000.0
     assert _parse_float("") is None
     assert _parse_float("  ") is None
 
@@ -51,15 +51,15 @@ def test_parse_enum_rejects_unknown_value():
 
 def test_destination_from_row_full():
     row = {
-        "id": "liquid_340k", "title": "$340k generated",
-        "detail": "300k liquid plus car", "engine": "floor",
+        "id": "runway", "title": "Financial runway secured",
+        "detail": "invested, not idle cash", "engine": "floor",
         "target_date": "2031-06-01", "confidence": "stretch",
-        "target_value": "340,000", "current_value": "5000", "unit": "CAD",
+        "target_value": "100,000", "current_value": "5000", "unit": "USD",
     }
     d = destination_from_row(row)
-    assert d.id == "liquid_340k"
-    assert d.target_value == 340000
-    assert d.progress_pct == round(5000 / 340000 * 100, 1)
+    assert d.id == "runway"
+    assert d.target_value == 100000
+    assert d.progress_pct == round(5000 / 100000 * 100, 1)
 
 
 def test_task_from_row_defaults_status():

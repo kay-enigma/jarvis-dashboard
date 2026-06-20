@@ -61,7 +61,7 @@ class LocalFileSource(PlanSource):
         # Plan's own validators run here: duplicate-id check + the
         # referential-integrity check that tasks point at real destinations.
         return Plan(
-            owner="Kay",
+            owner="Operator",
             generated_at=datetime.now(timezone.utc).isoformat(timespec="seconds"),
             destinations=destinations,
             current_quarter=current_quarter,

@@ -1,19 +1,15 @@
 """
 First-run seed.
 
-When the store finds no saved state, it builds this. Everything here is
-populated from the operator's actual context (the cut, the Reta protocol, the
-5-year plan / three engines) so Jarvis is useful the first time it opens —
-then every value is editable in-app and your edits become the saved state.
-
-The numbers are starting points, not gospel: net worth is an explicit
-placeholder, the Reta dose is a placeholder to overwrite, etc. Notes call out
-which ones to replace.
+When the store finds no saved state, it builds this. It's a generic, ready-to-
+edit example so the app is useful and demoable the first time it opens — then
+every value is editable in-app and your edits become the saved state. Replace
+these placeholders with your own goals, metrics, and protocols.
 """
 
 from __future__ import annotations
 
-from datetime import date, timedelta
+from datetime import date
 
 from .schema import (
     Engine,
@@ -35,66 +31,65 @@ def _r(d: str, v: float, note: str = "") -> Reading:
 def build_seed(today: date | None = None) -> JarvisState:
     today = today or date.today()
 
-    # ---- Weight: the cut, ~184 -> ~164, target 160.1 -----------------------
+    # ---- Weight: an example cut, target 165 --------------------------------
     weight = Metric(
         label="Weight",
         unit="lb",
-        target=160.1,
+        target=165.0,
         direction="down",
         readings=[
-            _r("2026-04-23", 184.2, "8 weeks out"),
-            _r("2026-04-30", 178.0),
-            _r("2026-05-07", 173.3),
-            _r("2026-05-14", 169.6),
-            _r("2026-05-21", 167.5),
-            _r("2026-05-28", 166.4),
-            _r("2026-06-04", 165.1),
-            _r("2026-06-11", 167.5, "carb/water bump"),
-            _r("2026-06-15", 164.4),
-            _r("2026-06-17", 164.1),
+            _r("2026-04-23", 185.0, "starting point"),
+            _r("2026-04-30", 181.5),
+            _r("2026-05-07", 178.0),
+            _r("2026-05-14", 175.5),
+            _r("2026-05-21", 173.0),
+            _r("2026-05-28", 171.5),
+            _r("2026-06-04", 170.0),
+            _r("2026-06-11", 171.0, "water fluctuation"),
+            _r("2026-06-17", 169.0),
         ],
     )
 
-    # ---- Body fat: rough estimates, target ~11% for a full six-pack --------
+    # ---- Body fat: example estimates, target 12% ---------------------------
     bodyfat = Metric(
         label="Body fat",
         unit="%",
-        target=11.0,
+        target=12.0,
         direction="down",
         readings=[
             _r("2026-04-23", 22.0, "estimate"),
-            _r("2026-05-14", 18.0, "estimate"),
-            _r("2026-06-04", 16.0, "estimate"),
-            _r("2026-06-17", 14.0, "photo read — upper 4 + obliques"),
+            _r("2026-05-14", 19.0, "estimate"),
+            _r("2026-06-04", 17.0, "estimate"),
+            _r("2026-06-17", 15.5, "estimate"),
         ],
     )
 
-    # ---- Net worth: PLACEHOLDER — overwrite with your real number ----------
+    # ---- Net worth: PLACEHOLDER — set your own number/target ---------------
     networth = Metric(
         label="Net worth",
-        unit="CAD",
-        target=300_000,  # liquid target; 340k total incl. car (see Money tab)
+        unit="USD",
+        target=100_000,
         direction="up",
         readings=[
-            _r(today.isoformat(), 0.0, "PLACEHOLDER — log your real net worth"),
+            _r(today.isoformat(), 0.0, "PLACEHOLDER — log your real number"),
         ],
     )
 
-    # ---- Peptides: Reta active (the cut compound). Dose is a placeholder. ---
+    # ---- Peptides: one example protocol — edit or remove -------------------
     peptides = [
         Peptide(
             id=new_id(),
-            key="reta",
-            dosage="0.5 mg",  # PLACEHOLDER — set your real dose
-            start_date=date(2026, 4, 23),
-            interval_days=7,  # GLP-class, weekly
-            length_days=None,  # ongoing through the cut
+            key="tb_bpc",
+            dosage="250 mcg",  # PLACEHOLDER — set your real dose
+            start_date=date(2026, 6, 1),
+            interval_days=1,
+            length_days=30,
             active=True,
-            note="Cut compound. Holding dose, not climbing — last pounds want a shallow deficit.",
+            note="Example protocol — edit dose/schedule or remove.",
         ),
     ]
 
-    # ---- Goals: the four-section board -------------------------------------
+    # ---- Goals: the four-section board (generic examples) ------------------
     goals: list[Goal] = []
 
     def add(text, section, engine=Engine.NONE, done=False, note="", order=0):
@@ -102,38 +97,34 @@ def build_seed(today: date | None = None) -> JarvisState:
                           engine=engine, done=done, note=note, order=order))
 
     # Layer 1 — Destinations (pin board)
-    add("PR secured (citizenship in sight)", Section.LAYER1, Engine.FLOOR, order=0,
-        note="IELTS → PGWP → AAIP/CEC → PR. The floor under everything.")
-    add("$340k generated — $300k liquid + parents' car", Section.LAYER1, Engine.FLOOR, order=1,
-        note="Liquid in index funds, not cash. Car ~$40k carved out of the total.")
-    add("Remote role at US-market pay", Section.LAYER1, Engine.SKILL, order=2,
-        note="Live anywhere in Canada now; anywhere on earth after citizenship.")
-    add("Parents' car — 20–30 lakh, ~2030", Section.LAYER1, Engine.VENTURE, order=3,
-        note="~$40k CAD via Wise → INR. You as documented payer.")
+    add("Financial runway secured", Section.LAYER1, Engine.FLOOR, order=0,
+        note="Your north-star number, invested — not idle cash.")
+    add("Career milestone reached", Section.LAYER1, Engine.SKILL, order=1,
+        note="The role / level you're aiming for.")
+    add("Peak physical condition", Section.LAYER1, Engine.PERSONAL, order=2,
+        note="Lean and strong, sustainably.")
+    add("Launch something of your own", Section.LAYER1, Engine.VENTURE, order=3,
+        note="A product/venture with real traction.")
 
     # Layer 2 — This Quarter (pin board)
-    add("Finish the cut → land ~160 lean", Section.LAYER2, Engine.PERSONAL, order=0,
-        note="Hold protocol, 160g protein, judge by the mirror not the scale.")
-    add("Ship the Layer 2 repo (Airflow + dbt/Snowflake + FastAPI + Claude API)",
-        Section.LAYER2, Engine.SKILL, order=1, note="The single highest-leverage artifact right now.")
-    add("Finish dbt + Databricks certs", Section.LAYER2, Engine.SKILL, order=2)
-    add("Book IELTS (gates PR — do it early)", Section.LAYER2, Engine.FLOOR, order=3)
-    add("Lock a recurring savings transfer", Section.LAYER2, Engine.FLOOR, order=4)
-    add("One merged OSS PR (dbt / Airflow / FastF1-adjacent)", Section.LAYER2, Engine.SKILL, order=5)
+    add("Finish the current training block", Section.LAYER2, Engine.PERSONAL, order=0)
+    add("Ship the portfolio project", Section.LAYER2, Engine.SKILL, order=1,
+        note="The single highest-leverage artifact right now.")
+    add("Earn a key certification", Section.LAYER2, Engine.SKILL, order=2)
+    add("Lock a recurring savings transfer", Section.LAYER2, Engine.FLOOR, order=3)
+    add("Open-source contribution (one merged PR)", Section.LAYER2, Engine.SKILL, order=4)
 
     # Layer 3 — Annual recalibration (pin board)
-    add("2026 — Killed ResearchGrade on purpose", Section.LAYER3, Engine.VENTURE, order=0,
-        note="Deliberate recalibration, not failure: a venture that endangered the PR floor "
-             "was a ceiling not worth reaching for. Deviation = input.")
-    add("2026 — Cut working; reta + 160g protein holding", Section.LAYER3, Engine.PERSONAL, order=1,
-        note="Stage-1 jacked nearly done. Lean mass intact while losing ~2–3 lb/wk.")
+    add("2026 — Dropped a project that didn't fit", Section.LAYER3, Engine.VENTURE, order=0,
+        note="Deliberate recalibration, not failure. Deviation = input.")
+    add("2026 — Health habits holding", Section.LAYER3, Engine.PERSONAL, order=1)
 
-    # Current Enhancements — the live checklist (the only section with ticks)
-    add("Hit protein: 160g today", Section.CURRENT, Engine.PERSONAL, done=False, order=0)
+    # Current Enhancements — the live checklist (only section with ticks)
+    add("Hit your protein target today", Section.CURRENT, Engine.PERSONAL, done=False, order=0)
     add("Train — log the session", Section.CURRENT, Engine.PERSONAL, done=False, order=1)
-    add("Ship one commit to the Layer 2 repo", Section.CURRENT, Engine.SKILL, done=False, order=2)
-    add("Book the IELTS slot", Section.CURRENT, Engine.FLOOR, done=False, order=3)
-    add("30 min on the OSS PR", Section.CURRENT, Engine.SKILL, done=False, order=4)
+    add("Ship one commit to the project", Section.CURRENT, Engine.SKILL, done=False, order=2)
+    add("One deep-work block, no distractions", Section.CURRENT, Engine.SKILL, done=False, order=3)
+    add("Review the plan for 5 minutes", Section.CURRENT, Engine.FLOOR, done=False, order=4)
 
     return JarvisState(
         profile=Profile(callsign="Operator"),

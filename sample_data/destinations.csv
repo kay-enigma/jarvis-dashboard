@@ -1,5 +1,5 @@
 id,title,detail,engine,target_date,confidence,target_value,current_value,unit
-pr_secured,Canadian PR secured,PR granted via PGWP then CEC/AAIP; citizenship in sight,floor,2030-06-01,likely,,,
-liquid_340k,$340k generated,300k invested-liquid plus ~40k for the parents' car,floor,2031-06-01,stretch,340000,5000,CAD
-remote_us_role,Remote role at US-market pay,Fully remote data/analytics role billed at US rates; live anywhere in Canada,skill,2031-06-01,likely,,,
-parents_car,Car for parents in India,20-30 lakh INR car (~40k CAD) gifted and registered in India,personal,2030-09-01,likely,40000,0,CAD
+runway,Financial runway secured,Your north-star number invested rather than idle cash,floor,2031-06-01,stretch,100000,5000,USD
+career,Career milestone reached,The role or level you're aiming for,skill,2031-06-01,likely,,,
+condition,Peak physical condition,Lean and strong sustainably,personal,2030-06-01,likely,,,
+venture,Launch something of your own,A product or venture with real traction,venture,2030-09-01,stretch,,,

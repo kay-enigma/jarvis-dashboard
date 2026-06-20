@@ -1,8 +1,8 @@
 id,title,engine,status,serves_destination,note
-cut_finish,Finish cut to ~160 lbs then eat to maintain,personal,in_progress,,"Hold protocol, protein at 160g, judge by lower abs not thigh calipers"
-repo_ship,Ship the Layer 2 public repo,skill,in_progress,remote_us_role,"Airflow + dbt/Snowflake + FastAPI + Claude API; the Analytics Engineer artifact"
-cert_dbt,Finish dbt Fundamentals cert,skill,not_started,remote_us_role,
-cert_databricks,Finish Databricks Associate cert,skill,not_started,remote_us_role,
-ielts_book,Book IELTS General Training,floor,not_started,pr_secured,"Gates the PR timeline; do not skip"
-savings_rate,Lock a tracked monthly savings transfer,floor,not_started,liquid_340k,"Build the habit now, before the big income"
-oss_pr,Open one PR into a known data tool,skill,not_started,remote_us_role,"dbt / Airflow / FastF1-adjacent; merged PR > 3 solo projects"
+train_block,Finish the current training block,personal,in_progress,condition,"Hold the protocol; judge by the mirror not the scale"
+ship_project,Ship the portfolio project,skill,in_progress,career,"The single highest-leverage artifact right now"
+cert_one,Earn a key certification,skill,not_started,career,
+cert_two,Earn a second certification,skill,not_started,career,
+gate_book,Book the gating prerequisite,floor,not_started,runway,"Do the thing that unlocks the timeline early"
+savings_rate,Lock a recurring savings transfer,floor,not_started,runway,"Build the habit before the income"
+oss_pr,Open one PR into a known tool,skill,not_started,career,"A merged PR beats three solo projects"

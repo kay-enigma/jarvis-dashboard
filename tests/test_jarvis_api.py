@@ -97,7 +97,7 @@ def test_unknown_metric_404(client):
 
 
 def test_forecast_endpoint(client):
-    # seed weight has 10 readings -> a real forecast with an ETA toward 160.1
+    # seed weight has enough readings -> a real declining forecast with an ETA
     fc = client.get("/api/forecast/weight").json()
     assert fc["available"] is True
     assert fc["slope_per_week"] < 0

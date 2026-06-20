@@ -261,10 +261,10 @@ class Profile(BaseModel):
     money_online_current: float = Field(0, ge=0)
     money_online_target: float = Field(100, gt=0)
 
-    # Narrative targets surfaced on the Money tab.
-    networth_liquid_target: float = 300_000
-    networth_total_target: float = 340_000
-    car_fund_target: float = 40_000
+    # Narrative targets surfaced on the Money tab (edit to your own).
+    networth_liquid_target: float = 100_000
+    networth_total_target: float = 100_000
+    car_fund_target: float = 0
 
     # Training + the "ideal day" setup the daily score is graded against.
     main_lifts: list[str] = Field(default_factory=list)  # pinned for strength curves

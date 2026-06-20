@@ -86,8 +86,8 @@ WILDCARD = [
     "Somewhere a less-disciplined version of you just hit snooze. Not here.",
     "Fun fact: the lower abs come in last out of pure spite. Hold the line.",
     "If this were easy it'd already be done and you'd have picked a bigger goal. So pick the bigger goal later.",
-    "Reminder from the door framework: would you still run this with every witness gone?",
-    "I could show you a motivational quote. Instead: go negotiate the base salary.",
+    "The real test: would you still run this with every witness gone?",
+    "I could show you a motivational quote. Instead: go do the hard thing.",
     "Today's forecast: 100% chance of you being capable of more than you'll admit.",
 ]
 

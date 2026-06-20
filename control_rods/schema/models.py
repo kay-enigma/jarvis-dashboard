@@ -194,7 +194,7 @@ class AnnualEntry(BaseModel):
 class Plan(BaseModel):
     """The assembled three-layer plan. This is the API contract."""
 
-    owner: str = "Kay"
+    owner: str = "Operator"
     generated_at: Optional[str] = None
     destinations: list[Destination] = Field(default_factory=list)
     current_quarter: Optional[Quarter] = None

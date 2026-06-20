@@ -130,7 +130,7 @@ class GoogleSheetSource(PlanSource):
         ]
 
         return Plan(
-            owner="Kay",
+            owner="Operator",
             generated_at=datetime.now(timezone.utc).isoformat(timespec="seconds"),
             destinations=destinations,
             current_quarter=current_quarter,

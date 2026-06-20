@@ -81,7 +81,7 @@ def test_finite_protocol_total_and_finish():
 
 
 def test_upcoming_merges_and_flags_today():
-    state = build_seed()  # seeds Reta weekly from 2026-04-23
+    state = build_seed()  # seeds a daily example protocol covering 2026-06-18
     rows = ps.upcoming(state, date(2026, 6, 18), horizon_days=21)
     assert rows, "expected upcoming doses"
     assert rows[0]["is_today"] is True
@@ -102,7 +102,7 @@ def test_dashboard_trend_direction_aware():
 
 
 def test_dashboard_networth_up_is_good():
-    nw = Metric(label="NW", unit="CAD", target=300000, direction="up",
+    nw = Metric(label="NW", unit="USD", target=300000, direction="up",
                 readings=[Reading(date=date(2026, 6, 1), value=1000),
                           Reading(date=date(2026, 6, 8), value=1500)])
     state = _minimal_state(networth=nw)
@@ -120,7 +120,7 @@ def test_dashboard_todos_only_current_section():
 
 def test_greeting_substitutes_name_and_never_empty():
     for _ in range(50):
-        g = greeting("Kay")
+        g = greeting("Ace")
         assert g and "{name}" not in g
 
 
@@ -193,7 +193,7 @@ def test_store_seeds_then_round_trips(tmp_path):
     assert not store.path.exists()
     state = store.load()  # seeds + writes
     assert store.path.exists()
-    assert state.peptides[0].key == "reta"
+    assert state.peptides[0].key in {"tb_bpc", "reta", "cjc_ipa", "ghk_cu", "semax", "selank"}
 
     def add(s):
         s.goals.append(Goal(text="ship it", section=Section.CURRENT, engine=Engine.SKILL))
