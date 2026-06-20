@@ -34,6 +34,7 @@ from pydantic import BaseModel, ValidationError
 from .. import checkin as checkin_mod
 from .. import dashboard as dash
 from .. import forecast as fc
+from .. import networth as nw_sheet
 from .. import peptides as pep_sched
 from .. import study as study_mod
 from .. import workouts as wk
@@ -372,6 +373,46 @@ def export_state():
 @app.get("/api/study")
 def study() -> JSONResponse:
     return JSONResponse(study_mod.summary(store.load()))
+
+
+@app.get("/api/networth/sheet-status")
+def networth_sheet_status() -> dict:
+    return {"connected": nw_sheet.sheet_url() is not None}
+
+
+@app.post("/api/networth/sync")
+def networth_sync() -> JSONResponse:
+    """Pull net worth from the money sheet and log it as today's reading
+    (replacing an earlier reading from today if there is one)."""
+    data = nw_sheet.fetch()
+    if data is None:
+        raise HTTPException(
+            status_code=502,
+            detail="Couldn't read the money sheet. Is it deployed to 'Anyone' and is JARVIS_NETWORTH_URL set?",
+        )
+    try:
+        value = float(data["net_worth"])
+    except (TypeError, ValueError, KeyError):
+        raise HTTPException(status_code=502, detail="Sheet did not return a numeric net_worth.")
+
+    today = date.today()
+
+    def apply(s):
+        m = s.networth
+        todays = [r for r in m.readings if r.date == today]
+        if todays:
+            todays[-1].value = value
+            todays[-1].note = "from money sheet"
+        else:
+            m.readings.append(Reading(id=new_id(), date=today, value=value, note="from money sheet"))
+
+    store.mutate(apply)
+    resp = store.load().model_dump(mode="json")
+    resp["_synced"] = {
+        "net_worth": value, "cash": data.get("cash"),
+        "debt": data.get("debt"), "stocks_value": data.get("stocks_value"),
+    }
+    return JSONResponse(resp)
 
 
 @app.get("/api/forecast/{kind}")

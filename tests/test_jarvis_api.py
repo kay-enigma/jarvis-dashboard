@@ -170,6 +170,12 @@ def test_study_unavailable_then_404_safety(client):
     assert client.get("/api/study").json()["available"] is False
 
 
+def test_networth_sync_requires_url(client, monkeypatch):
+    monkeypatch.delenv("JARVIS_NETWORTH_URL", raising=False)
+    assert client.get("/api/networth/sheet-status").json()["connected"] is False
+    assert client.post("/api/networth/sync").status_code == 502
+
+
 def test_checkin_flow(client, monkeypatch):
     monkeypatch.delenv("JARVIS_CHECKIN_WEBHOOK", raising=False)
     st = client.get("/api/checkin/status").json()

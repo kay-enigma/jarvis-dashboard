@@ -605,12 +605,22 @@ async function renderMoney() {
   const el = $("#tab-money");
   const p = STATE.profile;
   const st = metricStats(STATE.networth);
-  const nFc = await api("/api/forecast/networth").catch(() => null);
+  const [nFc, sheet] = await Promise.all([
+    api("/api/forecast/networth").catch(() => null),
+    api("/api/networth/sheet-status").catch(() => ({ connected: false })),
+  ]);
+
+  const syncBar = sheet.connected ? `
+    <div class="panel" style="margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
+      <span class="hint">Net worth lives in your Google Sheet — cash · debt · live stock prices. Pull the latest in.</span>
+      <button class="btn btn-amber" data-action="sync-networth">⟳ Sync from sheet</button>
+    </div>` : "";
 
   el.innerHTML = `
     <div class="eyebrow"><span class="idx">03</span> Money &amp; Resources <span class="rule"></span>
       <span class="meta">floor + skill + venture</span></div>
 
+    ${syncBar}
     ${metricPanel("networth", STATE.networth, "var(--green)", nFc)}
 
     <div class="grid-2" style="margin-top:16px">
@@ -973,6 +983,16 @@ document.addEventListener("click", async (e) => {
     const txt = ($("#hevy-csv").value || "").trim();
     if (!txt) return toast("Paste the CSV first", true);
     return importWorkouts(txt);
+  }
+  if (a === "sync-networth") {
+    try {
+      const resp = await api("/api/networth/sync", "POST");
+      if (resp && resp.profile) STATE = resp;
+      const s = resp._synced || {};
+      toast(`Synced net worth: ${fmtVal(s.net_worth, STATE.networth.unit)}`);
+      renderTab("money");
+    } catch (e) { toast(e.message, true); }
+    return;
   }
   if (a === "pin-lift") {
     const lift = t.dataset.lift;
