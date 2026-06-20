@@ -141,7 +141,7 @@ No service-account JSON needed — the check-in posts to an Apps Script webhook:
    function doPost(e) {
      var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
      var data = JSON.parse(e.postData.contents);
-     var cols = ["date", "weight", "protein", "trained", "energy", "sleep", "focus"];
+     var cols = ["date", "weight", "protein", "trained", "energy", "sleep", "deep_work", "degging", "focus"];
      if (sheet.getLastRow() === 0) sheet.appendRow(cols);
      sheet.appendRow(cols.map(function (c) { return data[c] || ""; }));
      return ContentService.createTextOutput(JSON.stringify({ ok: true }))
